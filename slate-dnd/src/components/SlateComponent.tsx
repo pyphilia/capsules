@@ -15,13 +15,14 @@ import {
 import { createPortal } from "react-dom";
 import { CodeElement } from './elements/CodeElement';
 
-import {initialValue, withNodeId,  } from "./withNodeId";
+import { withNodeId,  } from "./withNodeId";
 
 import "./styles.css";
-import { save } from "./utils";
+import { load, save } from "./utils";
 import { SortableElement } from "./dnd/Sortable";
 import { renderLeaf } from "./Leaf";
 import { onKeyDown } from "./onKeyDown";
+import { CustomEditor } from "./CustomEditor";
 
 const useEditor = () =>
   useMemo(() => withNodeId(withReact(createEditor())), []);
@@ -38,9 +39,15 @@ const renderElementContent =  ((props) => {
 
 export default function App() {
   const editor = useEditor();
-  const [value, setValue] = useState(initialValue);
+  const [value, setValue] = useState(load());
   const [activeId, setActiveId] = useState(null);
   const activeElement = editor.children.find((x) => x.id === activeId);
+
+  const clearSelection = () => {
+    ReactEditor.blur(editor);
+    Transforms.deselect(editor);
+    window.getSelection()?.empty();
+  };
 
   const handleDragStart = (event) => {
     if (event.active) {
@@ -68,11 +75,6 @@ export default function App() {
     setActiveId(null);
   };
 
-  const clearSelection = () => {
-    ReactEditor.blur(editor);
-    Transforms.deselect(editor);
-    window.getSelection()?.empty();
-  };
 
 
   const renderElement = useCallback((props) => {
@@ -95,6 +97,24 @@ export default function App() {
     onChange={(value) => {
       save(editor,value)
     }}  >
+      <div>
+        <button
+          onMouseDown={event => {
+            event.preventDefault()
+            CustomEditor.toggleBoldMark(editor)
+          }}
+        >
+          Bold
+        </button>
+        <button
+          onMouseDown={event => {
+            event.preventDefault()
+            CustomEditor.toggleCodeBlock(editor)
+          }}
+        >
+          Code Block
+        </button>
+      </div>
       <DndContext
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}

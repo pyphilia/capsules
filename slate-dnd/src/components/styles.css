@@ -14,7 +14,7 @@ body {
     display: flex;
   }
   
-  button {
+  .drag-overlay button,  .sortable  button {
     user-select: none;
     background: none;
     border: none;
@@ -22,3 +22,6 @@ body {
     display: inline-flex;
   }
   
+  [role="textbox"] {
+    border: 1px solid red;
+  }

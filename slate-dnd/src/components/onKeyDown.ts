@@ -1,5 +1,5 @@
 
-import {  Editor, Element, Transforms} from "slate";
+import { CustomEditor } from "./CustomEditor";
 
 export const onKeyDown = editor=>(event) => {
                     if (!event.ctrlKey) {
@@ -7,26 +7,16 @@ export const onKeyDown = editor=>(event) => {
                     }
           
                     switch (event.key) {
-                      case 'a': {
-                        event.preventDefault();
-                        const [match] = Editor.nodes(editor, {
-                          match: (n) => n.type === 'code',
-                        });
-                        Transforms.setNodes(
-                          editor,
-                          { type: match ? null : 'code' },
-                          {
-                            match: (n) =>
-                              Element.isElement(n) && Editor.isBlock(editor, n),
-                          },
-                        );
-                        break;
+                        case '`': {
+                          event.preventDefault()
+                          CustomEditor.toggleCodeBlock(editor)
+                          break
+                        }
+            
+                        case 'b': {
+                          event.preventDefault()
+                          CustomEditor.toggleBoldMark(editor)
+                          break
+                        }
                       }
-          
-                      case 'b': {
-                        event.preventDefault();
-                        Editor.addMark(editor, 'bold', true);
-                        break;
-                      }
-                    }
                   }

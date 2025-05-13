@@ -20,14 +20,26 @@ export const deserialize = (string) => {
   });
 };
 
+export const load = ( ) => {    
+    if(localStorage.getItem('content')){
+    return JSON.parse( localStorage.getItem('content')) 
+} 
+    
+    return [
+        {
+            id:'myidfordnd',
+          type: 'paragraph',
+          children: [{ text: 'A line of text in a paragraph.' }],
+        },
+      ]; 
+  }
+
 export const save = (editor,value) => {
     const isAstChange = editor.operations.some(
-      (op) => 'set_selection' !== op.type,
+    (op) => 'set_selection' !== op.type,
     );
-    console.log(isAstChange);
     //   if (isAstChange) {
     // Serialize the value and save the string value to Local Storage.
-    localStorage.setItem('content', serialize(value));
-    console.log(value, serialize(value));
+    localStorage.setItem('content', JSON.stringify(value));
     //   }
-  }
+}
