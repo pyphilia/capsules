@@ -14,6 +14,7 @@ import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import { MyLinkButton } from './MyLinkButton';
 import MyTweetButton from './MyTweetButton';
 import { TweetNode } from './nodes/TweetNode';
+import DraggableBlockPlugin from './plugins/DraggableBlockPlugin';
 import { LinkPlugin } from './plugins/LinkPlugin';
 import TwitterPlugin from './plugins/TwitterPlugin';
 import './styles.css';
@@ -49,6 +50,14 @@ function Editor({ initialEditorState }) {
 
   const [editorState, setEditorState] = useState();
   const hasLinkAttributes = true;
+  const [floatingAnchorElem, setFloatingAnchorElem] =
+    useState<HTMLDivElement | null>(null);
+
+  const onRef = (_floatingAnchorElem: HTMLDivElement) => {
+    if (_floatingAnchorElem !== null) {
+      setFloatingAnchorElem(_floatingAnchorElem);
+    }
+  };
 
   const initialConfig = {
     namespace: 'MyEditor',
@@ -61,16 +70,16 @@ function Editor({ initialEditorState }) {
   const onChange = async (editorState) => {
     // Call toJSON on the EditorState object, which produces a serialization safe string
     const editorStateJSON = editorState.toJSON();
-    console.log(editorStateJSON);
+    console.log(JSON.stringify(editorStateJSON));
     // However, we still have a JavaScript object, so we need to convert it to an actual string with JSON.stringify
     setEditorState(JSON.stringify(editorStateJSON));
 
     // SAVE
-    const response = await fetch('http://localhost:3000/lexical/' + ID, {
-      method: 'PATCH',
-      body: JSON.stringify(editorStateJSON),
-    });
-    await response.json();
+    // const response = await fetch('http://localhost:3000/lexical/' + ID, {
+    //   method: 'PATCH',
+    //   body: JSON.stringify(editorStateJSON),
+    // });
+    // await response.json();
   };
 
   return (
@@ -78,12 +87,18 @@ function Editor({ initialEditorState }) {
       <LexicalComposer initialConfig={initialConfig}>
         <MyTweetButton />
         <MyLinkButton />
+        {/* <div className="editor-inner" ref={onRef}> */}
         <RichTextPlugin
           contentEditable={
-            <ContentEditable
-              aria-placeholder={'Enter some text...'}
-              placeholder={<div>Enter some text...</div>}
-            />
+            <div className="editor-scroller">
+              <div className="editor" ref={onRef}>
+                <ContentEditable
+                  className={'ContentEditable__root'}
+                  aria-placeholder={'Enter some text...'}
+                  placeholder={<div>Enter some text...</div>}
+                />
+              </div>
+            </div>
           }
           ErrorBoundary={LexicalErrorBoundary}
         />
@@ -102,7 +117,18 @@ function Editor({ initialEditorState }) {
         />
         <TwitterPlugin />
         <MyOnChangePlugin onChange={onChange} />
-        {/* <MyLoadPlugin /> */}
+        {floatingAnchorElem && (
+          <>
+            <DraggableBlockPlugin anchorElem={floatingAnchorElem} />
+            {/* <CodeActionMenuPlugin anchorElem={floatingAnchorElem} />
+                <TableHoverActionsPlugin anchorElem={floatingAnchorElem} /> */}
+            {/* <FloatingTextFormatToolbarPlugin
+              anchorElem={floatingAnchorElem}
+              setIsLinkEditMode={setIsLinkEditMode}
+            /> */}
+          </>
+        )}
+        {/* </div> */}
       </LexicalComposer>
     </div>
   );
@@ -113,18 +139,20 @@ const LoadingEditor = () => {
   const [hasLoaded, setHasLoaded] = useState(false);
   const [response, setResponse] = useState(false);
 
-  useEffect(() => {
-    fetch('http://localhost:3000/lexical/' + ID, {
-      method: 'GET',
-    }).then(async (d) => {
-      setResponse(await d.json());
-      setHasLoaded(true);
-    });
-  }, []);
+  return <Editor initialEditorState={undefined} />;
 
-  if (hasLoaded) {
-    return <Editor initialEditorState={response.data} />;
-  }
+  // useEffect(() => {
+  //   fetch('http://localhost:3000/lexical/' + ID, {
+  //     method: 'GET',
+  //   }).then(async (d) => {
+  //     setResponse(await d.json());
+  //     setHasLoaded(true);
+  //   });
+  // }, []);
+
+  // if (hasLoaded) {
+  //   return <Editor initialEditorState={response.data} />;
+  // }
 
   return <CircularProgress />;
 };

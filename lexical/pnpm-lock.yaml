@@ -41,6 +41,9 @@ importers:
       '@lexical/react':
         specifier: ^0.31.1
         version: 0.31.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(yjs@13.6.26)
+      '@lexical/rich-text':
+        specifier: ^0.31.1
+        version: 0.31.1
       '@lexical/utils':
         specifier: ^0.31.1
         version: 0.31.1
