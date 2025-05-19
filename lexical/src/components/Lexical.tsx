@@ -11,10 +11,13 @@ import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 
+import { LinkItemButton } from './LinkItemButton';
 import { MyLinkButton } from './MyLinkButton';
 import MyTweetButton from './MyTweetButton';
+import { LinkItemNode } from './nodes/LinkItemNode';
 import { TweetNode } from './nodes/TweetNode';
 import DraggableBlockPlugin from './plugins/DraggableBlockPlugin';
+import { LinkItemPlugin } from './plugins/LinkItemPlugin';
 import { LinkPlugin } from './plugins/LinkPlugin';
 import TwitterPlugin from './plugins/TwitterPlugin';
 import './styles.css';
@@ -63,7 +66,7 @@ function Editor({ initialEditorState }) {
     namespace: 'MyEditor',
     theme,
     onError,
-    nodes: [TweetNode, LinkNode],
+    nodes: [TweetNode, LinkNode, LinkItemNode],
     editorState: initialEditorState,
   };
 
@@ -74,10 +77,11 @@ function Editor({ initialEditorState }) {
     setEditorState(JSON.stringify(editorStateJSON));
 
     // SAVE
-    // const response = await fetch('http://localhost:3000/lexical/' + ID, {
-    //   method: 'PATCH',
-    //   body: JSON.stringify(editorStateJSON),
-    // });
+    const response = await fetch('http://localhost:3000/lexical/' + ID, {
+      method: 'PATCH',
+      body: JSON.stringify(editorStateJSON),
+    });
+    // console.log(editorStateJSON);
     // await response.json();
   };
 
@@ -86,6 +90,7 @@ function Editor({ initialEditorState }) {
       <LexicalComposer initialConfig={initialConfig}>
         <MyTweetButton />
         <MyLinkButton />
+        <LinkItemButton />
         {/* <div className="editor-inner" ref={onRef}> */}
         <RichTextPlugin
           contentEditable={
@@ -117,6 +122,7 @@ function Editor({ initialEditorState }) {
           }
         />
         <TwitterPlugin />
+        <LinkItemPlugin />
         <MyOnChangePlugin onChange={onChange} />
         {floatingAnchorElem && (
           <>
@@ -140,20 +146,20 @@ const LoadingEditor = () => {
   const [hasLoaded, setHasLoaded] = useState(false);
   const [response, setResponse] = useState(false);
 
-  return <Editor initialEditorState={undefined} />;
+  // return <Editor initialEditorState={undefined} />;
 
-  // useEffect(() => {
-  //   fetch('http://localhost:3000/lexical/' + ID, {
-  //     method: 'GET',
-  //   }).then(async (d) => {
-  //     setResponse(await d.json());
-  //     setHasLoaded(true);
-  //   });
-  // }, []);
+  useEffect(() => {
+    fetch('http://localhost:3000/lexical/' + ID, {
+      method: 'GET',
+    }).then(async (d) => {
+      setResponse(await d.json());
+      setHasLoaded(true);
+    });
+  }, []);
 
-  // if (hasLoaded) {
-  //   return <Editor initialEditorState={response.data} />;
-  // }
+  if (hasLoaded) {
+    return <Editor initialEditorState={response.data} />;
+  }
 
   return <CircularProgress />;
 };
