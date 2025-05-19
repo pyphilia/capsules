@@ -51,8 +51,6 @@ export default function DraggableBlockPlugin({
     });
   }
 
-  console.log(menuRef);
-
   return (
     <DraggableBlockPlugin_EXPERIMENTAL
       anchorElem={anchorElem}

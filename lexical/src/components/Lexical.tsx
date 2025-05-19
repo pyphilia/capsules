@@ -70,7 +70,6 @@ function Editor({ initialEditorState }) {
   const onChange = async (editorState) => {
     // Call toJSON on the EditorState object, which produces a serialization safe string
     const editorStateJSON = editorState.toJSON();
-    console.log(JSON.stringify(editorStateJSON));
     // However, we still have a JavaScript object, so we need to convert it to an actual string with JSON.stringify
     setEditorState(JSON.stringify(editorStateJSON));
 
@@ -90,9 +89,11 @@ function Editor({ initialEditorState }) {
         {/* <div className="editor-inner" ref={onRef}> */}
         <RichTextPlugin
           contentEditable={
+            // necessary for dnd, or at least for allowing updates
             <div className="editor-scroller">
               <div className="editor" ref={onRef}>
                 <ContentEditable
+                  // necessary for dnd, for shifting text and show drag icon correctly
                   className={'ContentEditable__root'}
                   aria-placeholder={'Enter some text...'}
                   placeholder={<div>Enter some text...</div>}
