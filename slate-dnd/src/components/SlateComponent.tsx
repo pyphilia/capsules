@@ -19,6 +19,7 @@ import { CustomEditor } from './CustomEditor';
 import { renderLeaf } from './Leaf';
 import { SortableElement } from './dnd/Sortable';
 import { CodeElement } from './elements/CodeElement';
+import { LinkItem } from './elements/LinkItem';
 import { onKeyDown } from './onKeyDown';
 import './styles.css';
 import { load, save } from './utils';
@@ -75,6 +76,7 @@ export default function App() {
   };
 
   const renderElement = useCallback((props) => {
+    console.log('Element', props);
     const isTopLevel = ReactEditor.findPath(editor, props.element).length === 1;
 
     return isTopLevel ? (
@@ -113,6 +115,14 @@ export default function App() {
           }}
         >
           Code Block
+        </button>
+        <button
+          onMouseDown={(event) => {
+            event.preventDefault();
+            CustomEditor.addLinkItem(editor);
+          }}
+        >
+          Link Item
         </button>
       </div>
       <DndContext
