@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { JSX } from 'react';
+import { JSX, ReactNode } from 'react';
 
 import { BlockWithAlignableContents } from '@lexical/react/LexicalBlockWithAlignableContents';
 import {
@@ -33,9 +33,7 @@ type LinkItemComponentProps = Readonly<{
   onError?: (error: string) => void;
   onLoad?: () => void;
   url: string;
-  changeLayout: (layout: string) => void;
   layout: string;
-  isEditable: boolean;
 }>;
 
 export function LinkItemComponent({
@@ -46,8 +44,6 @@ export function LinkItemComponent({
   // onLoad,
   url,
   layout,
-  changeLayout,
-  isEditable,
 }: LinkItemComponentProps) {
   // const [isTweetLoading, setIsTweetLoading] = useState(false);
 
@@ -100,15 +96,6 @@ export function LinkItemComponent({
           format={format}
           nodeKey={nodeKey}
         >
-          {isEditable && (
-            <button
-              onClick={() => {
-                changeLayout('button');
-              }}
-            >
-              toggle to button
-            </button>
-          )}
           <iframe
             style={{ display: 'inline-block', width: '100%' }}
             src={url}
@@ -126,15 +113,6 @@ export function LinkItemComponent({
         format={format}
         nodeKey={nodeKey}
       >
-        {isEditable && (
-          <button
-            onClick={() => {
-              changeLayout('iframe');
-            }}
-          >
-            toggle to iframe
-          </button>
-        )}
         <a href={url}>my link</a>
       </BlockWithAlignableContents>
     </div>
@@ -231,17 +209,33 @@ export class LinkItemNode extends DecoratorBlockNode {
       base: embedBlockTheme.base || '',
       focus: embedBlockTheme.focus || '',
     };
+
+    let menu: ReactNode = undefined;
+    if (editor.isEditable()) {
+      const newType = this.__layout === 'iframe' ? 'button' : 'iframe';
+      menu = (
+        <button
+          onClick={() => {
+            this.changeLayout(newType);
+          }}
+        >
+          toggle to {newType}
+        </button>
+      );
+    }
+
     return (
-      <LinkItemComponent
-        className={className}
-        format={this.__format}
-        loadingComponent="Loading..."
-        nodeKey={this.getKey()}
-        url={this.__url}
-        isEditable={editor.isEditable()}
-        layout={this.__layout}
-        changeLayout={this.changeLayout(editor)}
-      />
+      <>
+        {menu}
+        <LinkItemComponent
+          className={className}
+          format={this.__format}
+          loadingComponent="Loading..."
+          nodeKey={this.getKey()}
+          url={this.__url}
+          layout={this.__layout}
+        />
+      </>
     );
   }
 }
