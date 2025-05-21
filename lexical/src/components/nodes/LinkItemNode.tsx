@@ -119,7 +119,7 @@ export function LinkItemComponent({
   );
 }
 
-export type SerializedTweetNode = Spread<
+export type SerializedLinkItemNode = Spread<
   {
     url: string;
     layout: string;
@@ -139,14 +139,10 @@ export class LinkItemNode extends DecoratorBlockNode {
   }
 
   static clone(node: LinkItemNode): LinkItemNode {
-    return new LinkItemNode(
-      { url: node.__url, layout: node.__layout },
-      node.__format,
-      node.__key,
-    );
+    return new LinkItemNode(node.__url, node.__format, node.__key);
   }
 
-  static importJSON(serializedNode: SerializedTweetNode): LinkItemNode {
+  static importJSON(serializedNode: SerializedLinkItemNode): LinkItemNode {
     const node = $createLinkItemNode({
       url: serializedNode.url,
       layout: serializedNode.layout,
@@ -155,14 +151,12 @@ export class LinkItemNode extends DecoratorBlockNode {
     return node;
   }
 
-  constructor(
-    params: { url: string; layout: string },
-    format?: ElementFormatType,
-    key?: NodeKey,
-  ) {
+  // cannot use object in first parameter because of collab
+  constructor(url: string, format?: ElementFormatType, key?: NodeKey) {
     super(format, key);
-    this.__url = params.url;
-    this.__layout = params.layout;
+    this.__url = url;
+    this.__layout = 'iframe';
+    // this.__layout = params.layout;
   }
 
   // static importDOM(): DOMConversionMap<HTMLDivElement> | null {
@@ -179,28 +173,35 @@ export class LinkItemNode extends DecoratorBlockNode {
   //   };
   // }
 
-  exportJSON(): SerializedTweetNode {
+  getLayout(): string {
+    return this.__layout;
+  }
+
+  getUrl(): string {
+    return this.__url;
+  }
+
+  exportJSON(): SerializedLinkItemNode {
+    // console.log(this.__layout);
     return {
       ...super.exportJSON(),
       type: 'linkItem',
       version: 1,
-      url: this.__url,
-      layout: this.__layout,
+      url: this.getUrl(),
+      layout: this.getLayout(),
     };
   }
   exportDOM(): DOMExportOutput {
     const element = document.createElement('div');
-    element.setAttribute('data-lexical-tweet-id', this.__id);
+    element.setAttribute('data-lexical-link-item-id', this.__id);
     return { element };
   }
 
-  changeLayout(editor) {
-    return (layout: string) => {
-      editor.update(() => {
-        const writable = this.getWritable();
-        writable.__layout = layout;
-      });
-    };
+  changeLayout(editor, layout: string) {
+    editor.update(() => {
+      const writable = this.getWritable();
+      writable.__layout = layout;
+    });
   }
 
   decorate(editor: LexicalEditor, config: EditorConfig): JSX.Element {
@@ -216,7 +217,7 @@ export class LinkItemNode extends DecoratorBlockNode {
       menu = (
         <button
           onClick={() => {
-            this.changeLayout(newType);
+            this.changeLayout(editor, newType);
           }}
         >
           toggle to {newType}
@@ -244,7 +245,7 @@ export function $createLinkItemNode(params: {
   url: string;
   layout: string;
 }): LinkItemNode {
-  return new LinkItemNode(params);
+  return new LinkItemNode(params.url);
 }
 
 export function $isLinkItemNode(

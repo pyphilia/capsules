@@ -40,16 +40,16 @@ type TweetComponentProps = Readonly<{
   tweetID: string;
 }>;
 
-function convertTweetElement(
-  domNode: HTMLDivElement,
-): DOMConversionOutput | null {
-  const id = domNode.getAttribute('data-lexical-tweet-id');
-  if (id) {
-    const node = $createTweetNode(id);
-    return { node };
-  }
-  return null;
-}
+// function convertTweetElement(
+//   domNode: HTMLDivElement,
+// ): DOMConversionOutput | null {
+//   const id = domNode.getAttribute('data-lexical-tweet-id');
+//   if (id) {
+//     const node = $createTweetNode(id);
+//     return { node };
+//   }
+//   return null;
+// }
 
 let isTwitterScriptLoading = true;
 
@@ -158,19 +158,19 @@ export class TweetNode extends DecoratorBlockNode {
     };
   }
 
-  static importDOM(): DOMConversionMap<HTMLDivElement> | null {
-    return {
-      div: (domNode: HTMLDivElement) => {
-        if (!domNode.hasAttribute('data-lexical-tweet-id')) {
-          return null;
-        }
-        return {
-          conversion: convertTweetElement,
-          priority: 2,
-        };
-      },
-    };
-  }
+  // static importDOM(): DOMConversionMap<HTMLDivElement> | null {
+  //   return {
+  //     div: (domNode: HTMLDivElement) => {
+  //       if (!domNode.hasAttribute('data-lexical-tweet-id')) {
+  //         return null;
+  //       }
+  //       return {
+  //         conversion: convertTweetElement,
+  //         priority: 2,
+  //       };
+  //     },
+  //   };
+  // }
 
   exportDOM(): DOMExportOutput {
     const element = document.createElement('div');

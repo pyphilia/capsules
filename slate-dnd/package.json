@@ -24,9 +24,6 @@
     "@graasp/sdk": "5.13.0",
     "@graasp/stylis-plugin-rtl": "2.2.0",
     "@hey-api/client-fetch": "0.7.2",
-    "@lexical/link": "^0.31.1",
-    "@lexical/react": "^0.31.1",
-    "@lexical/utils": "^0.31.1",
     "@mui/icons-material": "6.4.4",
     "@mui/lab": "6.0.0-beta.27",
     "@mui/material": "6.4.4",
@@ -87,6 +84,7 @@
     "stylis": "4.3.6",
     "use-supercluster": "1.2.0",
     "uuid": "11.0.5",
+    "yjs": "^13.6.27",
     "zod": "3.24.2"
   },
   "scripts": {

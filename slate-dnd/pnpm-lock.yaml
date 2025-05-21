@@ -46,10 +46,13 @@ importers:
         version: 0.31.1
       '@lexical/react':
         specifier: ^0.31.1
-        version: 0.31.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(yjs@13.6.26)
+        version: 0.31.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(yjs@13.6.27)
       '@lexical/utils':
         specifier: ^0.31.1
         version: 0.31.1
+      '@lexical/yjs':
+        specifier: ^0.31.2
+        version: 0.31.2(yjs@13.6.27)
       '@mui/icons-material':
         specifier: 6.4.4
         version: 6.4.4(@mui/material@6.4.4(@emotion/react@11.14.0(@types/react@19.1.2)(react@19.0.0))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@19.1.2)(react@19.0.0))(@types/react@19.1.2)(react@19.0.0))(@types/react@19.1.2)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(@types/react@19.1.2)(react@19.0.0)
@@ -74,6 +77,9 @@ importers:
       '@tanstack/zod-adapter':
         specifier: 1.105.0
         version: 1.105.0(@tanstack/react-router@1.105.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(zod@3.24.2)
+      LexicalComposer:
+        specifier: link:@lexical/react/LexicalComposer
+        version: link:@lexical/react/LexicalComposer
       axios:
         specifier: 1.8.2
         version: 1.8.2
@@ -230,6 +236,9 @@ importers:
       uuid:
         specifier: 11.0.5
         version: 11.0.5
+      yjs:
+        specifier: ^13.6.27
+        version: 13.6.27
       zod:
         specifier: 3.24.2
         version: 3.24.2
@@ -1548,6 +1557,9 @@ packages:
   '@lexical/offset@0.31.1':
     resolution: {integrity: sha512-NFdZqzaP0idc3Yh3iRReTMI599QHx/wRnX2Z8TkuSx1kOrLu6A9OtIe1DO3gBGZdc+RctvkEQfdlC74BtTagBw==}
 
+  '@lexical/offset@0.31.2':
+    resolution: {integrity: sha512-f8bNvys2jNgnjQWoUd6us7KBXdB7AhKqgWqso7nGeoB1CWGTkd88Qxm8A9uX/muPK0cb6fed4X7wN2xuRDWpyQ==}
+
   '@lexical/overflow@0.31.1':
     resolution: {integrity: sha512-Veei+jLZC18JioSl/33BvYGfy608t1STmWziUUnpE8/VBvaP3bj+FQU3ohe3qCQpliKc1+y34l8+2yEYvyDnSA==}
 
@@ -1566,6 +1578,9 @@ packages:
   '@lexical/selection@0.31.1':
     resolution: {integrity: sha512-5nzWd8cszqxFx0fyN4f+ZJsy5OCxZ6Q3ui8YhTHPGxh7mmGEEFBwy+O+s08ZOIB2DZO4kE6AKShsBMVZ/i95vA==}
 
+  '@lexical/selection@0.31.2':
+    resolution: {integrity: sha512-8hwNgAVWob09y8/Z2QKknw0z6vFcfjsQfHkyDwXwXUeTcJFjlAokrXrc65PRuufI4TaFDQHnXQpP5GcOYROE6Q==}
+
   '@lexical/table@0.31.1':
     resolution: {integrity: sha512-cjO4FNoZcLoOkMNbVEBX0tu8l6kEjHPQU/mLxC5X1PPfXZIUsi+hTvQCDvnby07o6MgotNL5OGsiZfaQUHfXQg==}
 
@@ -1577,6 +1592,11 @@ packages:
 
   '@lexical/yjs@0.31.1':
     resolution: {integrity: sha512-Is7Bv8M22v2tJT7T1UoVBEr94NeVPD5il0cQnrU3vF7KhqUqv2rJeWu9k1Gh0XOaVJVBYaJ6CPYckmuwzTgexQ==}
+    peerDependencies:
+      yjs: '>=13.5.22'
+
+  '@lexical/yjs@0.31.2':
+    resolution: {integrity: sha512-H1OV+NFGTmHqr+0BFkxo4bDBsdw1WmSwCzIoMVU1uA4levH7tLay/xBV/67ghh+5InSwGR6gcJeFdbL86URuOw==}
     peerDependencies:
       yjs: '>=13.5.22'
 
@@ -4640,6 +4660,9 @@ packages:
   lexical@0.31.1:
     resolution: {integrity: sha512-uS8yz3Soc+7h80OTXVhFSWflVJR6mqO7XoU8EXImDT1d8u8dVyitlCNs6kCz1HryTevcxHexHgGxf6kUg0IUgQ==}
 
+  lexical@0.31.2:
+    resolution: {integrity: sha512-1GRqzl/QAdtzqOoYXVfMFOkyiSQKIIPcazsgIs+WvsLL8UIcwP16WWeKUtamJgyvS84GN/tuMJsd1Iv+Qzw9WA==}
+
   lib0@0.2.107:
     resolution: {integrity: sha512-2xih/AugT0dJSgeSfsW/bqIPILlsqzEtmw8hXzWEnMLrOz12DTK5z9rjNgUT21/HkBjHSznOQBr67bcZdc8Ltg==}
     engines: {node: '>=16'}
@@ -6620,8 +6643,8 @@ packages:
   yauzl@2.10.0:
     resolution: {integrity: sha512-p4a9I6X6nu6IhoGmBqAcbJy1mlC4j27vEPZX9F4L4/vZT3Lyq1VkFHw/V/PUcB9Buo+DG3iHkT0x3Qya58zc3g==}
 
-  yjs@13.6.26:
-    resolution: {integrity: sha512-wiARO3wixu7mtoRP5f7LqpUtsURP9SmNgXUt3RlnZg4qDuF7dUjthwIvwxIDmK55dPw4Wl4QdW5A3ag0atwu7g==}
+  yjs@13.6.27:
+    resolution: {integrity: sha512-OIDwaflOaq4wC6YlPBy2L6ceKeKuF7DeTxx+jPzv1FHn9tCZ0ZwSRnUBxD05E3yed46fv/FWJbvR+Ud7x0L7zw==}
     engines: {node: '>=16.0.0', npm: '>=8.0.0'}
 
   yocto-queue@0.1.0:
@@ -8031,6 +8054,10 @@ snapshots:
     dependencies:
       lexical: 0.31.1
 
+  '@lexical/offset@0.31.2':
+    dependencies:
+      lexical: 0.31.2
+
   '@lexical/overflow@0.31.1':
     dependencies:
       lexical: 0.31.1
@@ -8042,7 +8069,7 @@ snapshots:
       '@lexical/utils': 0.31.1
       lexical: 0.31.1
 
-  '@lexical/react@0.31.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(yjs@13.6.26)':
+  '@lexical/react@0.31.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(yjs@13.6.27)':
     dependencies:
       '@lexical/devtools-core': 0.31.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@lexical/dragon': 0.31.1
@@ -8058,7 +8085,7 @@ snapshots:
       '@lexical/table': 0.31.1
       '@lexical/text': 0.31.1
       '@lexical/utils': 0.31.1
-      '@lexical/yjs': 0.31.1(yjs@13.6.26)
+      '@lexical/yjs': 0.31.1(yjs@13.6.27)
       lexical: 0.31.1
       react: 19.0.0
       react-dom: 19.0.0(react@19.0.0)
@@ -8077,6 +8104,10 @@ snapshots:
     dependencies:
       lexical: 0.31.1
 
+  '@lexical/selection@0.31.2':
+    dependencies:
+      lexical: 0.31.2
+
   '@lexical/table@0.31.1':
     dependencies:
       '@lexical/clipboard': 0.31.1
@@ -8094,12 +8125,19 @@ snapshots:
       '@lexical/table': 0.31.1
       lexical: 0.31.1
 
-  '@lexical/yjs@0.31.1(yjs@13.6.26)':
+  '@lexical/yjs@0.31.1(yjs@13.6.27)':
     dependencies:
       '@lexical/offset': 0.31.1
       '@lexical/selection': 0.31.1
       lexical: 0.31.1
-      yjs: 13.6.26
+      yjs: 13.6.27
+
+  '@lexical/yjs@0.31.2(yjs@13.6.27)':
+    dependencies:
+      '@lexical/offset': 0.31.2
+      '@lexical/selection': 0.31.2
+      lexical: 0.31.2
+      yjs: 13.6.27
 
   '@mdx-js/react@3.1.0(@types/react@19.1.2)(react@19.0.0)':
     dependencies:
@@ -11525,6 +11563,8 @@ snapshots:
 
   lexical@0.31.1: {}
 
+  lexical@0.31.2: {}
+
   lib0@0.2.107:
     dependencies:
       isomorphic.js: 0.2.5
@@ -13936,7 +13976,7 @@ snapshots:
       buffer-crc32: 0.2.13
       fd-slicer: 1.1.0
 
-  yjs@13.6.26:
+  yjs@13.6.27:
     dependencies:
       lib0: 0.2.107
 

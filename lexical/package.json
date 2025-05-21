@@ -26,6 +26,7 @@
     "@lexical/react": "^0.31.1",
     "@lexical/rich-text": "^0.31.1",
     "@lexical/utils": "^0.31.1",
+    "@lexical/yjs": "^0.31.2",
     "@mui/icons-material": "6.4.4",
     "@mui/lab": "6.0.0-beta.27",
     "@mui/material": "6.4.4",
@@ -83,6 +84,9 @@
     "stylis": "4.3.6",
     "use-supercluster": "1.2.0",
     "uuid": "11.0.5",
+    "y-webrtc": "^10.3.0",
+    "y-websocket": "^3.0.0",
+    "yjs": "^13.6.27",
     "zod": "3.24.2"
   },
   "scripts": {

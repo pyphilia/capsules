@@ -34,6 +34,7 @@ export function LinkItemPlugin(): JSX.Element | null {
     return editor.registerCommand(
       INSERT_LINK_ITEM_COMMAND,
       (payload) => {
+        console.log(payload);
         const linkNode = $createLinkItemNode(payload);
         $insertNodeToNearestRoot(linkNode);
 
