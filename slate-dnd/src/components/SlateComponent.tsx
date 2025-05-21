@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 import { DndContext, DragOverlay } from '@dnd-kit/core';
@@ -6,7 +6,9 @@ import {
   SortableContext,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
-import { Transforms, createEditor } from 'slate';
+import { Descendant, Transforms, createEditor } from 'slate';
+// This example is for an Editor with `ReactEditor` and `HistoryEditor`
+import { BaseEditor } from 'slate';
 import {
   DefaultElement,
   Editable,
@@ -19,11 +21,50 @@ import { CustomEditor } from './CustomEditor';
 import { renderLeaf } from './Leaf';
 import { SortableElement } from './dnd/Sortable';
 import { CodeElement } from './elements/CodeElement';
-import { LinkItem } from './elements/LinkItem';
 import { onKeyDown } from './onKeyDown';
 import './styles.css';
 import { load, save } from './utils';
 import { withNodeId } from './withNodeId';
+
+export type CustomEditorType = BaseEditor & ReactEditor;
+
+export type ParagraphElement = {
+  type: 'paragraph';
+  children: CustomText[];
+};
+
+export type HeadingElement = {
+  type: 'heading';
+  level: number;
+  children: CustomText[];
+};
+
+export type CodeBlockElement = {
+  type: 'code';
+  level: number;
+  children: CustomText[];
+};
+
+export type LinkItemElement = {
+  type: 'linkItem';
+  url: string;
+  layout: 'iframe' | 'button';
+  text: string; // hack
+};
+
+export type CustomElement = ParagraphElement | HeadingElement | LinkItemElement;
+
+export type FormattedText = { text: string; bold?: true };
+
+export type CustomText = FormattedText | CodeBlockElement;
+
+declare module 'slate' {
+  interface CustomTypes {
+    Editor: BaseEditor & ReactEditor;
+    Element: CustomElement;
+    Text: CustomText;
+  }
+}
 
 const useEditor = () =>
   useMemo(() => withNodeId(withReact(createEditor())), []);
@@ -150,7 +191,7 @@ export default function App() {
 
 const DragOverlayContent = ({ element }) => {
   const editor = useEditor();
-  const [value] = useState([JSON.parse(JSON.stringify(element))]); // clone
+  const [value] = useState<Descendant[]>([JSON.parse(JSON.stringify(element))]); // clone
 
   return (
     <div className="drag-overlay">

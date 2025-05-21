@@ -28,7 +28,7 @@ export const CustomEditor = {
     const isActive = CustomEditor.isCodeBlockActive(editor);
     Transforms.setNodes(
       editor,
-      { type: isActive ? null : 'code' },
+      { type: isActive ? undefined : 'code' },
       { match: (n) => Element.isElement(n) && Editor.isBlock(editor, n) },
     );
   },
@@ -55,7 +55,7 @@ export const CustomEditor = {
     // );
   },
 
-  setLinkLayout(editor, newType: string) {
+  setLinkLayout(editor, newType: 'iframe' | 'button') {
     const selectedNode =
       editor.selection && Editor.node(editor, editor.selection.focus);
     Transforms.setNodes(
