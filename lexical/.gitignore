@@ -52,3 +52,10 @@ storybook-static
 outDir/
 
 openapi-ts-error*
+
+# Playwright
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
